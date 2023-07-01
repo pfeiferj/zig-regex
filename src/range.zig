@@ -22,14 +22,11 @@ pub fn Range(comptime reader: *Reader) type {
             const c = r.data[r.index];
             r.index += 1;
 
-            if (c < self.first_char) {
-                return false;
-            }
-            if (c > self.final_char) {
-                return false;
+            if (c >= self.first_char and c <= self.final_char) {
+                return true;
             }
 
-            return true;
+            return false;
         }
     };
 
