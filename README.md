@@ -27,7 +27,6 @@ pub fn main() !void {
 * Literals (match a single character)
 * Character Sets
     - `[abc]` - 'a' or 'b' or 'c'
-    - `[^abc]` - not 'a' or 'b' or 'c'
     - `[^abc]` - not any of 'a' or 'b' or 'c'
     - `[a-zA-Z]` - any character from a through (inclusive) z or A through Z
 
