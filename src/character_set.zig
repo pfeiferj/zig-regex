@@ -11,12 +11,12 @@ pub fn CharacterSet(comptime reader: *Reader) type {
     comptime var T = switch (char) {
         '^' => blk: {
             reader.index += 1;
-            break :blk Not(Suffix(reader, _CharacterSet(reader)));
+            break :blk Not(_CharacterSet(reader));
         },
-        else => Suffix(reader, _CharacterSet(reader)),
+        else => _CharacterSet(reader),
     };
     reader.index += 1;
-    return T;
+    return Suffix(reader, T);
 }
 
 fn _CharacterSet(comptime reader: *Reader) type {
