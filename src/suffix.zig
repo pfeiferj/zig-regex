@@ -13,7 +13,7 @@ pub fn Suffix(comptime reader: *Reader, comptime token: type) type {
 
             const Self = @This();
 
-            fn init() Self {
+            pub fn init() Self {
                 return Self{ .child = token.init() };
             }
 
@@ -31,7 +31,7 @@ pub fn Suffix(comptime reader: *Reader, comptime token: type) type {
 
             const Self = @This();
 
-            fn init() Self {
+            pub fn init() Self {
                 return Self{ .child = token.init() };
             }
 
