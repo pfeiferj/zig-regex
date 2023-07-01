@@ -142,7 +142,8 @@ pub fn _compile(comptime reader: *Reader) type {
             const start_index = r.index;
             var last_loop_index: usize = 0;
 
-            outer: while (start_index == 0 and last_loop_index < r.data.len and !self.check_beginning or last_loop_index < 1) : (last_loop_index += 1) {
+            outer: while ((start_index == 0 and last_loop_index < r.data.len and !self.check_beginning) or last_loop_index < 1) : (last_loop_index += 1) {
+                r.index = last_loop_index;
                 inline for (self.tokens) |t| {
                     if (!t.matches(r)) {
                         continue :outer;
