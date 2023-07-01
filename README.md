@@ -17,7 +17,7 @@ const expression = "abc$"; // Must be known at comptime
 
 pub fn main() !void {
     comptime var rex = compile(expression).init();
-    const m = expression.matches("1234abc");
+    const m = rex.matches("1234abc");
     std.debug.print("matches: {}\n", .{m}); // Prints: `true`
 }
 ```
