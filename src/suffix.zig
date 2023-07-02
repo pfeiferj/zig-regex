@@ -1,4 +1,5 @@
 const Reader = @import("./reader.zig").Reader;
+const RepeatRange = @import("./repeat_range.zig").RepeatRange;
 
 pub fn Suffix(comptime reader: *Reader, comptime token: type) type {
     if (reader.index >= reader.data.len) {
@@ -75,6 +76,7 @@ pub fn Suffix(comptime reader: *Reader, comptime token: type) type {
                 return true;
             }
         },
+        '{' => RepeatRange(reader, token),
         else => token,
     };
 

@@ -60,7 +60,11 @@ pub fn main() !void {
     - `+*?^$\.[]{}()|/` - must be escaped for literal
     - `\-]` - need to be escaped for literal in character set
 
+* Repeat Ranges
+    - `{1,3}` - matches the preceding rule 1 through 3 times inclusive.
+    - `{,3}` - matches the preceding rule 0 through 3 times inclusive.
+    - `{1,}` - matches the preceding rule 1 or more times (up to max usize).
+
 ### Not Yet Implemented
 * `|` - Match the rule before or after
-* `{1,3}` - Match the preceding rule 1 through 3 times
 * escaped parenthesis in a group

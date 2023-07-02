@@ -12,11 +12,12 @@ pub fn compile(comptime rex: []const u8) type {
 }
 
 pub fn _compile(comptime reader: *Reader) type {
-    const char = reader.data[reader.index];
+    comptime var char = reader.data[reader.index];
     comptime var check_beginning = false;
     if (char == '^' and reader.index == 0) {
         check_beginning = true;
         reader.index += 1;
+        char = reader.data[reader.index];
     }
     comptime var token = blk: {
         // handle escaped characters
