@@ -17,6 +17,8 @@ pub fn Group(comptime reader: *Reader) type {
 
         if (char == '(') {
             depth += 1;
+        } else if (char == '\\') { // skip next char if escaped
+            reader.index += 1;
         } else if (char == ')') {
             depth -= 1;
         }

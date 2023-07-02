@@ -37,7 +37,7 @@ pub fn Suffix(comptime reader: *Reader, comptime token: type) type {
             }
 
             pub fn matches(self: @This(), r: *Reader) bool {
-                while (r.index < r.data.len) {
+                while (r.index < r.data.len - 1) {
                     const initial_index = r.index;
                     const m = self.child.matches(r);
                     if (!m) {
@@ -60,7 +60,7 @@ pub fn Suffix(comptime reader: *Reader, comptime token: type) type {
             pub fn matches(self: @This(), r: *Reader) bool {
                 const initial_index = r.index;
 
-                while (r.index < r.data.len) {
+                while (r.index < r.data.len - 1) {
                     const iteration_initial_index = r.index;
                     const m = self.child.matches(r);
                     if (!m) {
