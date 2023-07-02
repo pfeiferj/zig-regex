@@ -1,9 +1,8 @@
 const std = @import("std");
 const Reader = @import("./reader.zig").Reader;
 const Suffix = @import("./suffix.zig").Suffix;
-const _compile = @import("./compile.zig")._compile;
+const compile_reader = @import("./compile.zig").compile_reader;
 
-//TODO this does not deal with parens that are escaped or in character sets
 //TODO might be better to make everything deal with reader_matches
 pub fn Group(comptime reader: *Reader) type {
     reader.index += 1;
@@ -28,7 +27,7 @@ pub fn Group(comptime reader: *Reader) type {
         .index = 0,
     };
 
-    comptime var child_rex = _compile(&child_reader);
+    comptime var child_rex = compile_reader(&child_reader);
 
     comptime var T = struct {
         child: child_rex,

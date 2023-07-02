@@ -8,7 +8,43 @@ const LastCharacter = @import("./last_character.zig").LastCharacter;
 
 pub fn compile(comptime rex: []const u8) type {
     comptime var reader = Reader{ .data = rex, .index = 0 };
-    return _compile(&reader);
+    return compile_reader(&reader);
+}
+
+pub fn compile_reader(comptime reader: *Reader) type {
+    const A = _compile(reader);
+    if (reader.index < reader.data.len and reader.data[reader.index] == '|') {
+        reader.index += 1;
+        const B = compile_reader(reader);
+        return comptime struct {
+            const Self = @This();
+            a: @typeInfo(@TypeOf(A.init)).Fn.return_type.?,
+            b: @typeInfo(@TypeOf(B.init)).Fn.return_type.?,
+
+            pub fn init() Self {
+                return Self{ .a = A.init(), .b = B.init() };
+            }
+
+            pub fn print(self: @This()) void {
+                self.a.print();
+                std.debug.print("|");
+                self.b.print();
+            }
+            pub fn matches(self: @This(), input: []const u8) bool {
+                return self.a.matches(input) or self.b.matches(input);
+            }
+            pub fn reader_matches(self: @This(), r: *Reader) bool {
+                const initial_index = r.index;
+                const m = self.a.reader_matches(r);
+                if (m) {
+                    return true;
+                }
+                r.index = initial_index;
+                return self.b.reader_matches(r);
+            }
+        };
+    }
+    return A;
 }
 
 pub fn _compile(comptime reader: *Reader) type {
@@ -104,9 +140,14 @@ pub fn _compile(comptime reader: *Reader) type {
         };
     };
 
-    comptime var tokens = switch (reader.data.len - reader.index) {
-        0 => .{token.init()},
-        else => .{token.init()} ++ _compile(reader).init().tokens,
+    comptime var tokens = blk: {
+        if (reader.index < reader.data.len and reader.data[reader.index] == '|') {
+            break :blk .{token.init()};
+        }
+        break :blk switch (reader.data.len - reader.index) {
+            0 => .{token.init()},
+            else => .{token.init()} ++ _compile(reader).init().tokens,
+        };
     };
 
     return comptime struct {
