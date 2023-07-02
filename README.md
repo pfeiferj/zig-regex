@@ -65,6 +65,9 @@ pub fn main() !void {
     - `{,3}` - matches the preceding rule 0 through 3 times inclusive.
     - `{1,}` - matches the preceding rule 1 or more times (up to max usize).
 
+* Or
+    - `abc|def|ghi` matches "abc", "def", or "ghi"
+    
+
 ### Not Yet Implemented
-* `|` - Match the rule before or after
-* escaped parenthesis in a group
+* look ahead/behind
